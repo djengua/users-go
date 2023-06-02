@@ -12,6 +12,7 @@ var Ctx context.Context
 var Cfg aws.Config
 var err error
 
+// Cargar la configuracion inicial
 func AWSInit() {
 	Ctx = context.TODO()
 	Cfg, err = config.LoadDefaultConfig(Ctx, config.WithDefaultRegion("us-east-1"))
