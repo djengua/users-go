@@ -19,6 +19,7 @@ func ReadSecret() error {
 }
 
 func DbConnect() error {
+	fmt.Println("Try connect to Database...")
 	connector := PostgresConnector{}
 	Db, err = connector.GetConnection()
 

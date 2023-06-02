@@ -8,6 +8,7 @@ import (
 	lambda "github.com/aws/aws-lambda-go/lambda"
 
 	// "github.com/djengua/users-go/awsgo"
+	"github.com/djengua/users-go/db"
 	"github.com/djengua/users-go/models"
 )
 
@@ -15,6 +16,7 @@ func HandleRequest(ctx context.Context, event events.CognitoEventUserPoolsPostCo
 
 	// awsgo.AWSInit()
 
+	db.DbConnect()
 	// if !validateParams() {
 	// 	fmt.Println("'SecretManager' not provided in parameters.")
 	// 	err := errors.New("'SecretManager' not provided in parameters")
