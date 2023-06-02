@@ -2,15 +2,19 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"os"
 
 	"github.com/aws/aws-lambda-go/events"
-	lambda "github.com/aws/aws-lambda-go/lambda"
 
 	// "github.com/djengua/users-go/awsgo"
 	"github.com/djengua/users-go/db"
 	"github.com/djengua/users-go/models"
 )
+
+func Test() {
+	db.DbConnect()
+}
 
 func HandleRequest(ctx context.Context, event events.CognitoEventUserPoolsPostConfirmation) (events.CognitoEventUserPoolsPostConfirmation, error) {
 
@@ -41,6 +45,12 @@ func HandleRequest(ctx context.Context, event events.CognitoEventUserPoolsPostCo
 	// 	return event, err
 	// }
 
+	err := db.SignUp(dataSignUp)
+	if err != nil {
+		fmt.Println("Error " + err.Error())
+		return event, err
+	}
+
 	return event, nil
 }
 
@@ -51,5 +61,6 @@ func validateParams() bool {
 }
 
 func main() {
-	lambda.Start(HandleRequest)
+	// lambda.Start(HandleRequest)
+	Test()
 }
