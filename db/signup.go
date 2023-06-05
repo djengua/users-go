@@ -6,23 +6,22 @@ import (
 	"github.com/djengua/users-go/models"
 )
 
+// Registro d enuevo usuario, proveniente de cognito
 func SignUp(s models.SignUp) error {
 	fmt.Println("Begin Registry in DB of new user")
-	err := DbConnect()
+	db, err := DbConnect()
 	if err != nil {
 		return err
 	}
 
-	defer Db.Close()
+	defer db.Close()
 
-	Db.AutoMigrate(&models.SignUp{})
-
+	result := db.AutoMigrate(&models.User{})
 	newUser := &models.User{}
-
 	newUser.Email = s.UserEmail
 	newUser.Uuid = s.UserUUID
 
-	result := Db.Create(newUser)
+	result = db.Create(newUser)
 
 	msg := fmt.Sprintf("> Rows affected: %v", result.RowsAffected)
 	fmt.Println(msg)

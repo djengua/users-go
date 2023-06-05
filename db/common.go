@@ -11,33 +11,31 @@ import (
 
 var SecretModel models.SecretRDS
 var err error
-var Db *gorm.DB
 
 func ReadSecret() error {
 	SecretModel, err = secretmgr.GetSecret(os.Getenv("SECRET_NAME"))
 	return err
 }
 
-func DbConnect() error {
+func DbConnect() (*gorm.DB, error) {
 	fmt.Println("Try connect to Database...")
 	connector := PostgresConnector{}
-	Db, err = connector.GetConnection()
+	db, err := connector.GetConnection()
 
 	if err != nil {
 		fmt.Println(err.Error())
-		// panic("Database connection attempt was unsuccessful...")
-		return err
+		fmt.Println("Database connection attempt was unsuccessful...")
+		return nil, err
 	}
 
-	err = Db.DB().Ping()
+	// Ping a la base de datos
+	err = db.DB().Ping()
 	if err != nil {
 		fmt.Println(err.Error())
-		return err
+		return nil, err
 	}
-
-	defer Db.Close()
 
 	fmt.Println("Database Connected successfully.....")
 
-	return nil
+	return db, nil
 }

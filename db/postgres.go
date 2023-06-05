@@ -15,6 +15,7 @@ type PostgresConnector struct {
 func (p *PostgresConnector) GetConnection() (db *gorm.DB, err error) {
 	e := godotenv.Load()
 	if e != nil {
+		fmt.Println("Error loading .env file")
 		fmt.Println(e)
 	}
 
